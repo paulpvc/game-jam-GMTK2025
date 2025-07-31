@@ -1,15 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dy32wjcgotq6v"]
+[gd_scene load_steps=2 format=3 uid="uid://dy32wjcgotq6v"]
 
 [ext_resource type="PackedScene" uid="uid://dlvky4p20sgsb" path="res://car.tscn" id="1_80nbo"]
-[ext_resource type="Texture2D" uid="uid://b3f0jh2t8mdff" path="res://icon.svg" id="2_e2o6t"]
 
 [node name="Game" type="Node2D"]
 
 [node name="car" parent="." instance=ExtResource("1_80nbo")]
+position = Vector2(13, -317)
+scale = Vector2(0.1, 0.1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(472, -313)
-
-[node name="Camera2D" type="Camera2D" parent="car"]
-
-[node name="Icon" type="Sprite2D" parent="car"]
-position = Vector2(-488, -218)
-texture = ExtResource("2_e2o6t")
+scale = Vector2(0.1, 0.1)

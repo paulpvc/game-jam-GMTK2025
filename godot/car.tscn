@@ -16,3 +16,16 @@ init_state_name = "CarRightState"
 
 [node name="CarRightState" type="CarRightState" parent="StateMachine"]
 path_sprite_frames = "res://assets/animations/car/car_right.tres"
+
+[node name="CarUpRightState" type="CarUpRightState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_up_right.tres"
+
+[node name="CarDownRightState" type="CarDownRightState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_down_right.tres"
+
+[node name="CarDownState" type="CarDownState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_down.tres"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.206
+one_shot = true
