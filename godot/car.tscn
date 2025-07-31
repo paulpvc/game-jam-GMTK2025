@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlvky4p20sgsb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06lh1"]
+size = Vector2(1071, 458)
+
+[node name="car" type="CharacterBody2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(11.5, 0)
+shape = SubResource("RectangleShape2D_06lh1")
+
+[node name="StateMachine" type="StateMachine" parent="."]
+init_state_name = "CarRightState"
+
+[node name="CarRightState" type="CarRightState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_right.tres"
