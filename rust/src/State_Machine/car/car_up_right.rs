@@ -10,7 +10,7 @@ use crate::State_Machine::car::car_consts::*;
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-pub struct CarRightState {
+pub struct CarUpRightState {
     #[export]
     path_sprite_frames: GString,
     car_sprite_frames: Gd<SpriteFrames>,
@@ -24,9 +24,9 @@ pub struct CarRightState {
 use godot::classes::INode;
 
 #[godot_api]
-impl INode for CarRightState {
+impl INode for CarUpRightState {
     fn ready(&mut self) {
-        self.name = "CarRightState".to_string();
+        self.name = "CarUpRightState".to_string();
         self.car_sprite_frames =
             SpriteAnimationLoader::load_sprite_frames(&self.path_sprite_frames.to_string());
 
@@ -38,6 +38,7 @@ impl INode for CarRightState {
             Some(parent) => Some(parent.cast::<CharacterBody2D>()),
             None => panic!("pas de parent2"),
         };
+
         let mut timer: Gd<Timer> = self
             .base()
             .get_parent()
@@ -50,13 +51,14 @@ impl INode for CarRightState {
 
         self.timer = Some(timer);
         self.timer_started = false;
+
     }
 }
 
 #[godot_api]
-impl CarRightState {
+impl CarUpRightState {
     #[signal]
-    fn transitionned(new_state: String);
+    fn transitionned();
     #[func]
     fn on_timer_timeout(&mut self) {
         if let Some(body) = &self.car_body_2D {
@@ -64,15 +66,17 @@ impl CarRightState {
                 let direction_rotation: f32 = Input::singleton().get_axis("ui_up", "ui_down");
                 if direction_rotation < 0.0 {
                     godot_print!("tourne vers la gauche");
-                    self.base_mut().emit_signal(
-                        &StringName::from("transitionned"),
-                        &["CarRightState".to_variant(), "CarUpRightState".to_variant()],
-                    );
+                   // self.base_mut().emit_signal(
+                     //   &StringName::from("transitionned"),
+                      //  &["CarRightState".to_variant(), "CarUpRightState".to_variant()],
+                    //);
                 } else if direction_rotation > 0.0 {
-                    self.base_mut().emit_signal(
+                     self.base_mut().emit_signal(
                         &StringName::from("transitionned"),
-                        &["CarRightState".to_variant(), "CarDownRightState".to_variant()],
+                        &["CarUpRightState".to_variant(), "CarRightState".to_variant()],
                     );
+
+                    //self.base_mut().emit_signal(&StringName::from("transitionned"), &["CarDownRightState".to_variant()]);
                 }
             }
         }
@@ -80,7 +84,7 @@ impl CarRightState {
     }
 }
 
-impl StateLogic for CarRightState {
+impl StateLogic for CarUpRightState {
     fn name(&self) -> String {
         self.name.clone()
     }
@@ -106,28 +110,29 @@ impl StateLogic for CarRightState {
     fn update(&mut self, delta: f64) {}
 
     fn physics_update(&mut self, delta: f64) {
-        
         let car_body_2_d = match &mut self.car_body_2D {
             Some(body) => body,
             None => panic!("PAS DE CARACBODY SUR LA VOITURE"),
         };
 
         let mut velocity: Vector2 = { car_body_2_d.get_velocity() };
-        //godot_print!("{velocity}");
 
-        let direction_rotation: f32 = Input::singleton().get_axis("ui_up", "ui_down");
+         let direction_rotation: f32 = Input::singleton().get_axis("ui_up", "ui_down");
         if velocity.length() >= TURN_THRESHOLD as f32 && direction_rotation != 0.0 && !self.timer_started {
             self.timer_started = true;
             self.timer.clone().unwrap().start();
         }
 
+
+
         let direction: f32 = Input::singleton().get_axis("ui_left", "ui_right");
         if direction != 0.0 {
             let target_speed = direction * MAX_SPEED as f32;
-            let forward = Vector2::new(1.0, 0.0).normalized();
+            let forward = Vector2::new(1.0, -1.0).normalized();
             velocity = velocity.move_toward(forward * target_speed, (ACCELERATION * delta) as f32);
         } else {
-            velocity = velocity.move_toward(Vector2::ZERO, (DECELERATION * delta) as f32);        }
+            velocity = velocity.move_toward(Vector2::ZERO, (DECELERATION * delta) as f32);
+        }
         car_body_2_d.set_velocity(velocity);
 
         car_body_2_d.move_and_slide();
@@ -137,5 +142,6 @@ impl StateLogic for CarRightState {
         let str_name = StringName::from(singal_name);
         self.base_mut().connect(&str_name, &callable);
         godot_print!("connected {singal_name} to {callable}")
+
     }
 }

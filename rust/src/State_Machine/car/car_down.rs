@@ -1,3 +1,5 @@
+
+
 use godot::builtin::Vector2;
 use godot::classes::Input;
 use godot::classes::{AnimatedSprite2D, CharacterBody2D, Node, SpriteFrames, Timer};
@@ -10,7 +12,7 @@ use crate::State_Machine::car::car_consts::*;
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-pub struct CarRightState {
+pub struct CarDownState {
     #[export]
     path_sprite_frames: GString,
     car_sprite_frames: Gd<SpriteFrames>,
@@ -24,9 +26,9 @@ pub struct CarRightState {
 use godot::classes::INode;
 
 #[godot_api]
-impl INode for CarRightState {
+impl INode for CarDownState {
     fn ready(&mut self) {
-        self.name = "CarRightState".to_string();
+        self.name = "CarDownState".to_string();
         self.car_sprite_frames =
             SpriteAnimationLoader::load_sprite_frames(&self.path_sprite_frames.to_string());
 
@@ -54,7 +56,7 @@ impl INode for CarRightState {
 }
 
 #[godot_api]
-impl CarRightState {
+impl CarDownState {
     #[signal]
     fn transitionned(new_state: String);
     #[func]
@@ -66,13 +68,10 @@ impl CarRightState {
                     godot_print!("tourne vers la gauche");
                     self.base_mut().emit_signal(
                         &StringName::from("transitionned"),
-                        &["CarRightState".to_variant(), "CarUpRightState".to_variant()],
+                        &["CarDownState".to_variant(), "CarDownRightState".to_variant()],
                     );
                 } else if direction_rotation > 0.0 {
-                    self.base_mut().emit_signal(
-                        &StringName::from("transitionned"),
-                        &["CarRightState".to_variant(), "CarDownRightState".to_variant()],
-                    );
+                    //self.base_mut().emit_signal(&StringName::from("transitionned"), &["CarDownRightState".to_variant()]);
                 }
             }
         }
@@ -80,7 +79,7 @@ impl CarRightState {
     }
 }
 
-impl StateLogic for CarRightState {
+impl StateLogic for CarDownState {
     fn name(&self) -> String {
         self.name.clone()
     }
@@ -124,7 +123,7 @@ impl StateLogic for CarRightState {
         let direction: f32 = Input::singleton().get_axis("ui_left", "ui_right");
         if direction != 0.0 {
             let target_speed = direction * MAX_SPEED as f32;
-            let forward = Vector2::new(1.0, 0.0).normalized();
+            let forward = Vector2::new(0.0, 1.0).normalized();
             velocity = velocity.move_toward(forward * target_speed, (ACCELERATION * delta) as f32);
         } else {
             velocity = velocity.move_toward(Vector2::ZERO, (DECELERATION * delta) as f32);        }

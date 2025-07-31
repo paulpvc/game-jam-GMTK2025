@@ -28,9 +28,10 @@ impl INode for StateMachine {
         for child in self.base().get_children().iter_shared() {
             if let Some(mut state) = StateRegistry::resolve(&child.clone()) {
                 let name = state.name();
+                godot_print!("{name}");
                 let signal_name = "transitionned".to_string();
                 state.connect(
-                    signal_name,
+                    &signal_name,
                     self.base().callable("on_child_transition"),
                 );
 
@@ -66,14 +67,16 @@ impl INode for StateMachine {
 
 #[godot_api]
 impl StateMachine {
-   
-    fn on_child_transition(&mut self, state: StatesType, new_state_name: String) {
+
+    #[func] 
+    fn on_child_transition(&mut self, state_name: String, new_state_name: String) {
+        godot_print!("changement appelé0");
         let current_state: &mut StatesType = match &mut self.current_state {
             Some(state) => state,
             None => panic!("on a perdu le current_state"),
         };
 
-        if current_state.name() == state.name() {
+        if current_state.name() == state_name {
             let new_state = self.states.get(&new_state_name);
             let mut new_state_ex = match new_state {
                 Some(new_state) => new_state.clone(),
