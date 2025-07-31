@@ -34,7 +34,11 @@ impl StateLogic for StatesType {
 
     fn exit(&mut self) {}
 
-    fn update(&mut self, delta: f64) {}
+    fn update(&mut self, delta: f64) {
+        match self {
+            StatesType::CarRight(state) => state.bind_mut().update(delta),
+        }
+    }
 
     fn physics_update(&mut self, delta: f64) {}
 
