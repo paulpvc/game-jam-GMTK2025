@@ -3,10 +3,10 @@ use godot::builtin::Vector2;
 use godot::classes::Input;
 use godot::global::godot_print;
 
-pub const MAX_SPEED: f64 = 130.0;
-pub const ACCELERATION: f64 = 80.0;
+pub const MAX_SPEED: f64 = 200.0;
+pub const ACCELERATION: f64 = 50.0;
 pub const DECELERATION: f64 = 100.0;
-pub const TURN_THRESHOLD: f64 = 40.0;
+pub const TURN_THRESHOLD: f64 = 20.0;
 
 use std::f32::consts::PI;
 
@@ -20,7 +20,7 @@ pub fn get_state_from_direction(velocity: Vector2) -> String {
         degrees += 360.0;
     }
 
-    godot_print!("{degrees}");
+    //godot_print!("{degrees}");
 
     // Déterminer l'état basé sur l'angle
     // Chaque direction couvre 45 degrés (360/8 directions)
