@@ -1,0 +1,18 @@
+[gd_resource type="SpriteFrames" load_steps=3 format=3 uid="uid://cp0bemqecq10f"]
+
+[ext_resource type="Texture2D" uid="uid://bdnmwm5t4iqnq" path="res://assets/Sprites/Car/test_car_top.png" id="1_t86tn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j3b8"]
+atlas = ExtResource("1_t86tn")
+region = Rect2(0, 0, 1500, 1500)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1j3b8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]

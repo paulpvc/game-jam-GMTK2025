@@ -1,3 +1,4 @@
+
 use godot::builtin::Vector2;
 use godot::classes::{AnimatedSprite2D, CharacterBody2D, Node, SpriteFrames, Timer};
 use godot::prelude::*;
@@ -9,7 +10,7 @@ use crate::State_Machine::car::car_consts::*;
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-pub struct CarRightState {
+pub struct CarUpState {
     #[export]
     path_sprite_frames: GString,
     car_sprite_frames: Gd<SpriteFrames>,
@@ -24,9 +25,9 @@ pub struct CarRightState {
 use godot::classes::INode;
 
 #[godot_api]
-impl INode for CarRightState {
+impl INode for CarUpState {
     fn ready(&mut self) {
-        self.name = "CarRightState".to_string();
+        self.name = "CarUpState".to_string();
         self.car_sprite_frames =
             SpriteAnimationLoader::load_sprite_frames(&self.path_sprite_frames.to_string());
 
@@ -42,13 +43,13 @@ impl INode for CarRightState {
 
         
 
-        self.facing_direction = Vector2::new(1.0, 0.0);
+        self.facing_direction = Vector2::new(0.0, -1.0);
         self.is_reversing = false;
     }
 }
 
 #[godot_api]
-impl CarRightState {
+impl CarUpState {
     #[signal]
     fn transitionned(new_state: String);
     
@@ -91,7 +92,7 @@ impl CarRightState {
     }
 }
 
-impl StateLogic for CarRightState {
+impl StateLogic for CarUpState {
     fn name(&self) -> String {
         self.name.clone()
     }

@@ -26,6 +26,14 @@ path_sprite_frames = "res://assets/animations/car/car_down_right.tres"
 [node name="CarDownState" type="CarDownState" parent="StateMachine"]
 path_sprite_frames = "res://assets/animations/car/car_down.tres"
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 1.206
-one_shot = true
+[node name="CarDownLeftState" type="CarDownLeftState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_down_left.tres"
+
+[node name="CarLeftState" type="CarLeftState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_left.tres"
+
+[node name="CarUpLeftState" type="CarUpLeftState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_up_left.tres"
+
+[node name="CarUpState" type="CarUpState" parent="StateMachine"]
+path_sprite_frames = "res://assets/animations/car/car_up.tres"

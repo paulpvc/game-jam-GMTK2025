@@ -9,14 +9,14 @@ use crate::State_Machine::car::car_consts::*;
 
 #[derive(GodotClass)]
 #[class(init, base=Node)]
-pub struct CarRightState {
+pub struct CarLeftState {
     #[export]
     path_sprite_frames: GString,
     car_sprite_frames: Gd<SpriteFrames>,
     name: String,
     base: Base<Node>,
     car_body_2D: Option<Gd<CharacterBody2D>>,
-    
+
     facing_direction: Vector2, // Direction vers laquelle la voiture regarde
     is_reversing: bool,
 }
@@ -24,9 +24,9 @@ pub struct CarRightState {
 use godot::classes::INode;
 
 #[godot_api]
-impl INode for CarRightState {
+impl INode for CarLeftState {
     fn ready(&mut self) {
-        self.name = "CarRightState".to_string();
+        self.name = "CarLeftState".to_string();
         self.car_sprite_frames =
             SpriteAnimationLoader::load_sprite_frames(&self.path_sprite_frames.to_string());
 
@@ -38,20 +38,17 @@ impl INode for CarRightState {
             Some(parent) => Some(parent.cast::<CharacterBody2D>()),
             None => panic!("pas de parent2"),
         };
-        
 
-        
-
-        self.facing_direction = Vector2::new(1.0, 0.0);
+        self.facing_direction = Vector2::new(-1.0, 0.0);
         self.is_reversing = false;
     }
 }
 
 #[godot_api]
-impl CarRightState {
+impl CarLeftState {
     #[signal]
     fn transitionned(new_state: String);
-    
+
     fn update_state_from_velocity(&mut self) -> String {
         if let Some(car_body) = &self.car_body_2D {
             let velocity = car_body.get_velocity();
@@ -91,7 +88,7 @@ impl CarRightState {
     }
 }
 
-impl StateLogic for CarRightState {
+impl StateLogic for CarLeftState {
     fn name(&self) -> String {
         self.name.clone()
     }
@@ -133,7 +130,7 @@ impl StateLogic for CarRightState {
         };
 
         let mut velocity: Vector2 = { car_body_2_d.get_velocity() };
-        
+
         velocity = update_velocity(self.facing_direction, velocity, &delta);
         car_body_2_d.set_velocity(velocity);
 
