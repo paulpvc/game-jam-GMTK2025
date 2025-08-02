@@ -1,0 +1,96 @@
+# Godot-specific
+.import/
+.export/
+.export-*/*
+.godot/
+godot/.godot
+*.import
+*.tmp
+*.translation
+
+# Godot build output
+*.pck
+*.exe
+*.apk
+*.xcodeproj
+*.xcworkspace
+*.ios
+*.dylib
+*.so
+*.dll
+*.zip
+*.tar.gz
+
+# Rust build output
+rust/target/
+rust/Cargo.lock
+# Rust/Cargo artifacts
+**/*.rs.bk
+**/*.rlib
+**/*.rmeta
+**/*.d
+**/*.o
+**/*.so
+**/*.dll
+**/*.dylib
+**/*.exe
+**/*.a
+**/*.lib
+**/*.pdb
+**/*.def
+**/*.exp
+**/*.gcno
+**/*.gcda
+**/*.profraw
+**/*.profdata
+**/*.dSYM/
+**/Cargo.lock
+**/Cargo.toml.orig
+**/.fingerprint/
+**/.cargo/
+**/.rustc_info.json
+**/.rustup/
+**/incremental/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.user
+*.sublime*
+
+# Backup files
+*~
+*.old
+
+# Logs
+*.log
+
+# Godot Mono (C#) - not needed if not using Mono, but safe to include
+.mono/
+*.csproj
+*.sln
+*.userprefs
+*.pidb
+*.suo
+*.user
+*.unityproj
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Godot export templates
+/templates/*

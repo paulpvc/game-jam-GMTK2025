@@ -1,14 +1,1 @@
-Node2D
-CollisionShape2D
-Area2D
-CameraController
-Camera2D
-CarUpState
-CarUpLeftState
-CarLeftState
-CarDownLeftState
-CarDownState
-CarDownRightState
-Timer
-CarUpRightState
-CarRightState
+TileMap
