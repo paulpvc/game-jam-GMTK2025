@@ -1,12 +1,12 @@
 use godot::builtin::Vector2;
 
 use godot::classes::Input;
-use godot::global::godot_print;
+use godot::global::{absf, godot_print};
 
-pub const MAX_SPEED: f64 = 200.0;
-pub const ACCELERATION: f64 = 50.0;
+pub const MAX_SPEED: f64 = 100.0;
+pub const ACCELERATION: f64 = 20.0;
 pub const DECELERATION: f64 = 100.0;
-pub const TURN_THRESHOLD: f64 = 20.0;
+pub const TURN_THRESHOLD: f64 = 10.0;
 
 use std::f32::consts::PI;
 
@@ -59,16 +59,45 @@ pub fn update_velocity(facing_direction: Vector2, mut velocity: Vector2, delta: 
 
     let rotation_vector = -facing_direction.orthogonal();
 
+    let rotate_coeff = match velocity.length() < TURN_THRESHOLD as f32 {
+        true => velocity.length() / TURN_THRESHOLD as f32,
+        false => 1.0,
+    };
+
     if direction != 0.0 {
         let target_speed = direction * MAX_SPEED as f32;
         let forward = facing_direction.normalized();
 
-        let toward_vector = (forward + rotation_vector * direction_rotation) * target_speed;
+        let toward_vector = (forward + rotation_vector * direction_rotation * rotate_coeff) * target_speed;
         //godot_print!("direction_rotation: {direction_rotation}, toward vector: {toward_vector}, facing direction: {facing_direction}");
+        //
+
+        let absolute_direction_vector = facing_direction.normalized() * velocity.length() * direction;
+        
+        let degrees_vel = compute_degrees(velocity.y, velocity.x);
+        let degrees_direction = compute_degrees(absolute_direction_vector.y, absolute_direction_vector.x);
+        let degrees = absf((degrees_vel - degrees_direction) as f64);
+
+        if direction_rotation == 0.0 && degrees < 170.0 {
+            velocity = absolute_direction_vector;
+            godot_print!("tourne plus");
+        }
+        else {godot_print!("tourne {direction_rotation} {degrees} {degrees_vel}, {degrees_direction}, {velocity}");}
+        
         velocity = velocity.move_toward(toward_vector, (ACCELERATION * delta) as f32);
+        
         velocity
     } else {
         velocity = velocity.move_toward(Vector2::ZERO, (DECELERATION * delta) as f32);
         velocity
     }
+}
+
+fn compute_degrees(y:f32, x: f32) -> f32 {
+    let angle = y.atan2(x);
+
+        // Convertir en degrés et normaliser entre 0 et 360
+        let mut degrees = angle * 180.0 / PI;
+        
+        degrees
 }
