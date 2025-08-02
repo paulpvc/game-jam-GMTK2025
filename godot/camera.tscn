@@ -6,7 +6,7 @@ size = Vector2(18, 34)
 [node name="Camera" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(20, 20)
+zoom = Vector2(7.47, 7.47)
 
 [node name="CameraController" type="CameraController" parent="."]
 
